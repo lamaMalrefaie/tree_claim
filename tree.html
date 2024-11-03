@@ -88,17 +88,21 @@
                     }
                 }
             } catch (e) {
-                alert("Invalid JSON: " + e.message);
+                alert("Error: Invalid JSON format.\nDetails: " + e.message);
             }
         }
 
         // Function to create a table from JSON array data
         function createTable(data) {
-            new Tabulator("#jsonTable", {
-                data: data,
-                autoColumns: true,
-                layout: "fitColumns",
-            });
+            if (Array.isArray(data) && data.length > 0 && typeof data[0] === 'object') {
+                new Tabulator("#jsonTable", {
+                    data: data,
+                    autoColumns: true,
+                    layout: "fitColumns",
+                });
+            } else {
+                document.getElementById('jsonTable').innerHTML = "Array data is not in a compatible format for tabular view.";
+            }
         }
 
         // Helper function to find first array in JSON object
